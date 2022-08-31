@@ -99,6 +99,54 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL XCORE_XS3A)
 
     ## Create an alias for the DEFAULT explorer board, 2V0
     add_library(rtos::bsp_config::xcore_ai_explorer ALIAS framework_rtos_board_support_config_xcore_ai_explorer_2V0)
+
+
+    ## Create XK-VOICE-L71 target
+    add_library(framework_rtos_board_support_config_xk_voice_l71 INTERFACE)
+    target_sources(framework_rtos_board_support_config_xk_voice_l71
+        INTERFACE
+            XK_VOICE_L71/platform/app_pll_ctrl.c
+            XK_VOICE_L71/platform/driver_instances.c
+            XK_VOICE_L71/platform/platform_init.c
+            XK_VOICE_L71/platform/platform_start.c
+    )
+    target_include_directories(framework_rtos_board_support_config_xk_voice_l71
+        INTERFACE
+            XK_VOICE_L71
+    )
+    target_link_libraries(framework_rtos_board_support_config_xk_voice_l71
+        INTERFACE
+            core::general
+            rtos::freertos
+            rtos::drivers::general
+            rtos::drivers::audio
+            rtos::drivers::trace
+            rtos::drivers::usb
+    )
+    target_compile_definitions(framework_rtos_board_support_config_xk_voice_l71
+        INTERFACE
+            XCOREAI_EXPLORER=1
+            PLATFORM_SUPPORTS_TILE_0=1
+            PLATFORM_SUPPORTS_TILE_1=1
+            PLATFORM_SUPPORTS_TILE_2=0
+            PLATFORM_SUPPORTS_TILE_3=0
+            USB_TILE_NO=0
+            USB_TILE=tile[USB_TILE_NO]
+
+            MIC_ARRAY_CONFIG_MCLK_FREQ=24576000
+            MIC_ARRAY_CONFIG_PDM_FREQ=3072000
+            MIC_ARRAY_CONFIG_SAMPLES_PER_FRAME=256
+            MIC_ARRAY_CONFIG_MIC_COUNT=2
+            MIC_ARRAY_CONFIG_CLOCK_BLOCK_A=XS1_CLKBLK_1
+            MIC_ARRAY_CONFIG_CLOCK_BLOCK_B=XS1_CLKBLK_2
+            MIC_ARRAY_CONFIG_PORT_MCLK=PORT_MCLK_IN_OUT
+            MIC_ARRAY_CONFIG_PORT_PDM_CLK=PORT_PDM_CLK
+            MIC_ARRAY_CONFIG_PORT_PDM_DATA=PORT_PDM_DATA
+            # DEBUG_PRINT_ENABLE_RTOS_MIC_ARRAY=1
+    )
+
+    ## Create an alias
+    add_library(rtos::bsp_config::xk_voice_l71 ALIAS framework_rtos_board_support_config_xk_voice_l71)
 endif()
 
 
