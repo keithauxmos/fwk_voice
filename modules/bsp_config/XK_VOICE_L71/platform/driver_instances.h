@@ -15,6 +15,8 @@ extern "C" {
 #include "rtos_i2s.h"
 #include "rtos_uart_tx.h"
 #include "rtos_spi_master.h"
+#include "rtos_spi_slave.h"
+#include "rtos_i2c_slave.h"
 
 #ifdef __cplusplus
 };
@@ -38,6 +40,7 @@ extern "C" {
 #define I2S_CLKBLK    XS1_CLKBLK_3
 #define MCLK_CLKBLK   XS1_CLKBLK_4
 #define SPI_CLKBLK   XS1_CLKBLK_3
+#define SPI_SLAVE_CLKBLK  XS1_CLKBLK_3
 
 /* Port definitions */
 #define PORT_MCLK           PORT_MCLK_IN_OUT
@@ -57,5 +60,8 @@ extern rtos_i2s_t *i2s_ctx;
 extern rtos_uart_tx_t *uart_tx_ctx;
 extern rtos_spi_master_t *spi_master_ctx;
 extern rtos_spi_master_device_t *spi_device_ctx;
+
+extern rtos_i2c_slave_t *i2c_slave_ctx;
+extern rtos_spi_slave_t *spi_slave_ctx;
 
 #endif /* DRIVER_INSTANCES_H_ */

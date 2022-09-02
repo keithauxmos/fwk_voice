@@ -8,6 +8,7 @@
 
 #include "rtos_interrupt.h"
 #include "rtos_spi_slave.h"
+#include "app_conf.h"
 
 #define XFER_DONE_CB_CODE       0
 

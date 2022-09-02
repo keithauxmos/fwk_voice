@@ -14,6 +14,11 @@
 #include "platform_conf.h"
 #include "platform/driver_instances.h"
 // #include "dac3101.h"
+#include "app_conf.h"
+
+#include "i2c_slave_app.h"
+#include "spi_slave_app.h"
+
 
 extern void i2s_rate_conversion_enable(void);
 
@@ -43,6 +48,13 @@ static void i2c_master_start(void)
 
 #if ON_TILE(I2C_TILE_NO)
     rtos_i2c_master_start(i2c_master_ctx);
+#endif
+}
+
+static void i2c_slave_platform_start(void)
+{
+#if ON_TILE(I2C_TILE_NO)
+    start_i2c_slave();
 #endif
 }
 
@@ -107,10 +119,25 @@ static void spi_start(void)
 #endif
 }
 
+extern void start_spi_devices();
+
+static void spi_slave_platform_start(void)
+{
+#if ON_TILE(0)
+    rtos_printf("spi_slave_start\n");
+    start_spi_devices();
+#endif
+}
+
 void platform_start(void)
 {
     rtos_intertile_start(intertile_ctx);
 
+#ifdef APPCONF_SPI_I2C_SLAVE_TEST == 1
+    spi_slave_platform_start();
+    
+    // i2c_slave_platform_start();
+#else
     // gpio_start();
     // flash_start();
     i2c_master_start();
@@ -119,4 +146,5 @@ void platform_start(void)
     // mics_start();
     // i2s_start();
     // uart_start();
+#endif
 }

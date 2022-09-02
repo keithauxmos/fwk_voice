@@ -109,6 +109,16 @@ static void i2c_init(void)
 #endif
 }
 
+static void i2c_slave_init(void)
+{
+    rtos_i2c_slave_init(
+            i2c_slave_ctx,
+            I2C_SLAVE_CORE_MASK,
+            PORT_I2C_SCL,
+            PORT_I2C_SDA,
+            I2C_SLAVE_ADDR);
+}
+
 static void spi_init(void)
 {
 #if ON_TILE(0)
@@ -134,6 +144,26 @@ static void spi_init(void)
             0);
 #endif
 }
+
+static void spi_slave_init(void)
+{
+#if ON_TILE(0)
+
+    rtos_printf("spi_slave_init\n");
+    rtos_spi_slave_init(
+            spi_slave_ctx,
+            SPI_SLAVE_CORE_MASK,
+            SPI_SLAVE_CLKBLK,
+            SPI_TEST_CPOL,
+            SPI_TEST_CPHA,
+            PORT_SQI_SCLK_0,    
+            PORT_SPI_MOSI,    
+            PORT_SPI_MISO,    
+            PORT_SSB);   
+#endif
+}
+
+
 
 static void mics_init(void)
 {
@@ -205,11 +235,16 @@ void platform_init(chanend_t other_tile_c)
 {
     rtos_intertile_init(intertile_ctx, other_tile_c);
 
+#ifdef APPCONF_SPI_I2C_SLAVE_TEST == 1
+    spi_slave_init();
+    // i2c_slave_init();
+#else
 //     mclk_init(other_tile_c);
 //     gpio_init();
     spi_init();
 //     flash_init();
     i2c_init();
+#endif
 //     mics_init();
 //     i2s_init();
 //     uart_init();
