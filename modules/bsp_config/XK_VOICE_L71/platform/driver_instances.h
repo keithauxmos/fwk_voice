@@ -61,7 +61,9 @@ extern rtos_uart_tx_t *uart_tx_ctx;
 extern rtos_spi_master_t *spi_master_ctx;
 extern rtos_spi_master_device_t *spi_device_ctx;
 
+#if APPCONF_SPI_I2C_SLAVE_TEST == 1
 extern rtos_i2c_slave_t *i2c_slave_ctx;
 extern rtos_spi_slave_t *spi_slave_ctx;
+#endif
 
 #endif /* DRIVER_INSTANCES_H_ */

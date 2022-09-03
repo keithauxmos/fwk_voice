@@ -109,6 +109,8 @@ static void i2c_init(void)
 #endif
 }
 
+#if APPCONF_SPI_I2C_SLAVE_TEST == 1
+
 static void i2c_slave_init(void)
 {
     rtos_i2c_slave_init(
@@ -118,6 +120,7 @@ static void i2c_slave_init(void)
             PORT_I2C_SDA,
             I2C_SLAVE_ADDR);
 }
+#endif //#if APPCONF_SPI_I2C_SLAVE_TEST == 1
 
 static void spi_init(void)
 {
@@ -145,6 +148,8 @@ static void spi_init(void)
 #endif
 }
 
+
+#if APPCONF_SPI_I2C_SLAVE_TEST == 1
 static void spi_slave_init(void)
 {
 #if ON_TILE(0)
@@ -162,6 +167,7 @@ static void spi_slave_init(void)
             PORT_SSB);   
 #endif
 }
+#endif  //#if APPCONF_SPI_I2C_SLAVE_TEST == 1
 
 
 
@@ -235,9 +241,9 @@ void platform_init(chanend_t other_tile_c)
 {
     rtos_intertile_init(intertile_ctx, other_tile_c);
 
-#ifdef APPCONF_SPI_I2C_SLAVE_TEST == 1
+#if APPCONF_SPI_I2C_SLAVE_TEST == 1
     spi_slave_init();
-    // i2c_slave_init();
+    i2c_slave_init();
 #else
 //     mclk_init(other_tile_c);
 //     gpio_init();

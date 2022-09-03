@@ -133,10 +133,10 @@ void platform_start(void)
 {
     rtos_intertile_start(intertile_ctx);
 
-#ifdef APPCONF_SPI_I2C_SLAVE_TEST == 1
+#if APPCONF_SPI_I2C_SLAVE_TEST == 1
     spi_slave_platform_start();
     
-    // i2c_slave_platform_start();
+    i2c_slave_platform_start();
 #else
     // gpio_start();
     // flash_start();
